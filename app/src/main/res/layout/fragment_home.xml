@@ -1,0 +1,113 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/previousMonthButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:text="◀"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/monthTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/previousMonthButton"
+            android:layout_alignBottom="@+id/previousMonthButton"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toStartOf="@+id/nextMonthButton"
+            android:layout_toEndOf="@id/previousMonthButton"
+            android:gravity="center"
+            android:text="Month"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/nextMonthButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:text="▶"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/homeIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/previousMonthButton"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:text="收入\nNT$ 0"
+            android:textColor="@color/green"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/homeOutcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/previousMonthButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="支出\nNT$ 0"
+            android:textColor="@color/red"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/homeBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/previousMonthButton"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:text="餘額\nNT$ 0"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <ListView
+            android:id="@+id/expenseListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/homeIncome"
+            android:layout_alignStart="@+id/homeIncome"
+            android:layout_alignEnd="@+id/homeBalance"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="-15dp"
+            android:layout_marginEnd="-14dp"
+            android:layout_marginBottom="0dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"/>
+
+        <Button
+            android:id="@+id/addExpenseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="15dp"
+            android:text="新增" />
+
+    </RelativeLayout>
+
+</FrameLayout>

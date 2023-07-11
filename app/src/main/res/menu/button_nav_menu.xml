@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="交易"
+        android:icon="@drawable/baseline_home_24"
+        android:id="@+id/home"/>
+    <item android:title="日曆"
+        android:icon="@drawable/baseline_calendar_month_24"
+        android:id="@+id/calendar"/>
+    <item android:title="預算"
+        android:icon="@drawable/baseline_flag_24"
+        android:id="@+id/flag"/>
+    <item android:title="設置"
+        android:icon="@drawable/baseline_person_24"
+        android:id="@+id/person"/>
+</menu>

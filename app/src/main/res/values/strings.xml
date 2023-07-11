@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MoneyManager</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="expense_categories">
+        <item>收入</item>
+        <item>支出</item>
+    </string-array>
+</resources>
