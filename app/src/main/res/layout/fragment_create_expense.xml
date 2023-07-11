@@ -28,13 +28,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:background="@drawable/spinner_background"
-        android:hint="Category" />
+        android:hint="Category"
+        />
 
     <Button
         android:id="@+id/dateButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="15dp"
-        android:text="選擇日期" />
+        android:text="選擇日期"
+        android:textColor="@color/white"/>
 
 </LinearLayout>

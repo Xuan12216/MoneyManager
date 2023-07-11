@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".addBalanceActivity">
+    tools:context=".addBalanceActivity"
+    style="@style/SCREEN">
 
     <Button
         android:id="@+id/addBalanceBackButton"
@@ -13,6 +14,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:text="返回"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,6 +57,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="35dp"
         android:text="儲存"
+        android:textColor="@color/white"
         app:cornerRadius="8dp"
         app:layout_constraintStart_toStartOf="@+id/balanceEditText"
         app:layout_constraintTop_toBottomOf="@+id/addBalanceDateBtn" />
@@ -86,6 +89,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="60dp"
         android:text="選擇日期"
+        android:textColor="@color/white"
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="@+id/balanceEditText"
         app:layout_constraintStart_toStartOf="@+id/balanceEditText"
@@ -108,6 +112,7 @@
         android:layout_marginTop="35dp"
         android:layout_marginEnd="15dp"
         android:text="刪除"
+        android:textColor="@color/white"
         android:visibility="visible"
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="@+id/addBalanceDateBtn"

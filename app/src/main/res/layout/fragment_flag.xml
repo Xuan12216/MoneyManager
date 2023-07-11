@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.FlagFragment">
+    tools:context=".Fragment.FlagFragment"
+    style="@style/SCREEN">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,6 +18,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:text="◀"
+            android:textColor="@color/white"
             android:textSize="24sp" />
 
         <TextView
@@ -43,6 +45,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
             android:text="▶"
+            android:textColor="@color/white"
             android:textSize="24sp" />
 
         <androidx.cardview.widget.CardView

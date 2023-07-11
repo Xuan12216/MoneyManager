@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    style="@style/SCREEN"
     tools:context=".Fragment.CalendarFragment">
 
     <RelativeLayout
@@ -17,7 +18,8 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:text="◀"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/monthTextView_calendar"
@@ -43,7 +45,8 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
             android:text="▶"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/calendarIncome"
@@ -96,7 +99,6 @@
             android:layout_weight="1"
             android:text="週日"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="16sp" />
         <TextView
             android:layout_width="0dp"
@@ -104,7 +106,6 @@
             android:layout_weight="1"
             android:text="週一"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -113,7 +114,6 @@
             android:layout_weight="1"
             android:text="週二"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -122,7 +122,6 @@
             android:layout_weight="1"
             android:text="週三"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -131,7 +130,6 @@
             android:layout_weight="1"
             android:text="週四"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -140,7 +138,6 @@
             android:layout_weight="1"
             android:text="週五"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -149,7 +146,6 @@
             android:layout_weight="1"
             android:text="週六"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="16sp" />
 
     </LinearLayout>

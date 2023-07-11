@@ -9,7 +9,6 @@
         android:id="@+id/dayTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:textSize="18sp" />
     <TextView
         android:id="@+id/dayTextViewIncome"
@@ -34,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="5dp"
-        android:textColor="@color/black"
         android:textSize="12sp" />
 
 </LinearLayout>

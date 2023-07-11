@@ -1,5 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#FFFFFF" /> <!-- 框框的填充颜色 -->
     <stroke android:color="#c5c5c5" android:width="0.5dp" /> <!-- 框框的边框颜色和宽度 -->
     <corners android:radius="0dp" /> <!-- 框框的圆角半径 -->
 </shape>
