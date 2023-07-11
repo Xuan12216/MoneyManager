@@ -23,8 +23,18 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        replaceFragment(new HomeFragment());
         BottomNavigationView navigationView = findViewById(R.id.bottomNavigationView);
+
+        int reload = getIntent().getIntExtra("Reload",-1);
+
+        if (reload == 1) {
+            MenuItem flagItem = navigationView.getMenu().findItem(R.id.flag);
+            flagItem.setChecked(true);
+            replaceFragment(new FlagFragment());
+        } else {
+            replaceFragment(new HomeFragment());
+        }
+
         navigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

@@ -1,8 +1,12 @@
 package com.example.moneymanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +14,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.moneymanager.Fragment.FlagFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -80,7 +86,9 @@ public class addBalanceActivity extends AppCompatActivity {
                         }
                     });
                 }
-                finish();
+                Intent intent = new Intent(addBalanceActivity.this,MainActivity2.class);
+                intent.putExtra("Reload",1);
+                startActivity(intent);
             }
         });
 
@@ -103,8 +111,9 @@ public class addBalanceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (CheckEditText()){
                     saveExpense();
-                    //setResult(RESULT_OK);
-                    finish();
+                    Intent intent = new Intent(addBalanceActivity.this,MainActivity2.class);
+                    intent.putExtra("Reload",1);
+                    startActivity(intent);
                 }
 
             }
