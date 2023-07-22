@@ -244,7 +244,6 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
             TextView amountTextView = itemView.findViewById(R.id.amountTextView);
             TextView dateTextView = itemView.findViewById(R.id.dateTextView);
             TextView categoryTextView = itemView.findViewById(R.id.categoryTextView);
-            View dividerView = itemView.findViewById(R.id.dividerView);
             TextView dateBigTextView = itemView.findViewById(R.id.dateBigTextView);
 
             if (currentMonth + 1 == Integer.parseInt(month) && currentYear == Integer.parseInt(year)) {
@@ -262,26 +261,25 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
                 categoryTextView.setText("消費類型：" + currentExpense.getCategory());
 
                 // 检查是否与前一个项目的日期相同
-                if (previousDate != null && previousDate.equals(day)) {
-                    // 隐藏日期TextView和分割线
-                    dividerView.setVisibility(View.VISIBLE);
-
-                } else {
+                if (previousDate == null ) {
                     // 显示日期TextView和分割线
-                    dividerView.setVisibility(View.VISIBLE);
                     dateBigTextView.setVisibility(View.VISIBLE);
                     dateBigTextView.setText(dateString1);
                 }
-
+                else if (!previousDate.equals(day)) {
+                    // 显示日期TextView和分割线
+                    dateBigTextView.setVisibility(View.VISIBLE);
+                    dateBigTextView.setText(dateString1);
+                }
                 // 更新前一个项目的日期
                 previousDate = day;
-            } else {
+            }
+            else {
                 linearLayout.setVisibility(View.GONE);
                 nameTextView.setVisibility(View.GONE);
                 amountTextView.setVisibility(View.GONE);
                 dateTextView.setVisibility(View.GONE);
                 categoryTextView.setVisibility(View.GONE);
-                dividerView.setVisibility(View.VISIBLE);
             }
             return itemView;
         }

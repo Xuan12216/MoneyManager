@@ -8,19 +8,12 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp">
 
-    <View
-        android:id="@+id/dividerView"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        android:visibility="gone" />
-
     <TextView
         android:id="@+id/dateBigTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:paddingTop="10dp"
+        android:paddingTop="5dp"
         android:textStyle="bold"
         android:gravity="center"
         android:visibility="gone"/>
@@ -29,6 +22,7 @@
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
         android:text="Expense Name"
         android:textStyle="bold"
         android:textSize="16sp" />
@@ -37,6 +31,7 @@
         android:id="@+id/amountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
         android:text="Expense Amount"
         android:textSize="14sp" />
 
@@ -44,6 +39,7 @@
         android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
         android:text="Expense Date"
         android:textSize="14sp" />
 
@@ -51,6 +47,7 @@
         android:id="@+id/categoryTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
         android:text="Expense Category"
         android:textSize="14sp"
         android:paddingBottom="15dp"/>
