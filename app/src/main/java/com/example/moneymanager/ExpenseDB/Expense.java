@@ -1,4 +1,4 @@
-package com.example.moneymanager;
+package com.example.moneymanager.ExpenseDB;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 

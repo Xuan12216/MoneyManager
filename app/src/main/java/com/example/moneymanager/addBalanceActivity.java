@@ -1,9 +1,6 @@
 package com.example.moneymanager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -15,7 +12,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.moneymanager.Fragment.FlagFragment;
+import com.example.moneymanager.ExpenseDB.Expense;
+import com.example.moneymanager.ExpenseDB.ExpenseDao;
+import com.example.moneymanager.ExpenseDB.ExpenseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

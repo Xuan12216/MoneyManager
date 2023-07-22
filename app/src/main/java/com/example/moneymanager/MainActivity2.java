@@ -31,7 +31,8 @@ public class MainActivity2 extends AppCompatActivity {
             MenuItem flagItem = navigationView.getMenu().findItem(R.id.flag);
             flagItem.setChecked(true);
             replaceFragment(new FlagFragment());
-        } else {
+        }
+        else {
             replaceFragment(new HomeFragment());
         }
 

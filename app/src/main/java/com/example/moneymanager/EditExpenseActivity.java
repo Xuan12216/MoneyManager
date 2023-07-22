@@ -13,6 +13,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.moneymanager.ExpenseDB.Expense;
+import com.example.moneymanager.ExpenseDB.ExpenseDatabase;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

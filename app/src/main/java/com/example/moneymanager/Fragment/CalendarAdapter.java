@@ -10,8 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.moneymanager.Expense;
-import com.example.moneymanager.ExpenseDatabase;
+import com.example.moneymanager.ExpenseDB.Expense;
+import com.example.moneymanager.ExpenseDB.ExpenseDatabase;
 import com.example.moneymanager.R;
 
 import java.text.SimpleDateFormat;

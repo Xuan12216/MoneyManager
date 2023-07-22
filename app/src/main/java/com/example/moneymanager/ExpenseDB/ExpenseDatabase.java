@@ -1,10 +1,13 @@
-package com.example.moneymanager;
+package com.example.moneymanager.ExpenseDB;
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+
+import com.example.moneymanager.DateConverter;
+
 @Database(entities = {Expense.class}, version = 1, exportSchema = true)
 @TypeConverters({DateConverter.class})
 public abstract class ExpenseDatabase extends RoomDatabase {

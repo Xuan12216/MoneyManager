@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.moneymanager.ExpenseDatabase;
+import com.example.moneymanager.ExpenseDB.ExpenseDatabase;
 import com.example.moneymanager.MainActivity;
 import com.example.moneymanager.R;
 

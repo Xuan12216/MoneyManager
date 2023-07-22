@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.moneymanager.ExpenseDB.ExpenseDatabase;
+
 public class MainActivity extends AppCompatActivity {
     Button loginButton;
     ExpenseDatabase expenseDatabase;

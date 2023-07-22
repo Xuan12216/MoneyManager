@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.moneymanager.Expense;
-import com.example.moneymanager.ExpenseDao;
-import com.example.moneymanager.ExpenseDatabase;
+import com.example.moneymanager.ExpenseDB.Expense;
+import com.example.moneymanager.ExpenseDB.ExpenseDao;
+import com.example.moneymanager.ExpenseDB.ExpenseDatabase;
 import com.example.moneymanager.R;
 import com.example.moneymanager.addBalanceActivity;
 
