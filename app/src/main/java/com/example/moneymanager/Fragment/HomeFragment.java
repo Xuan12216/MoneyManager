@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -216,8 +217,6 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
     }
 
     private class ExpenseAdapter extends ArrayAdapter<Expense> {
-
-        private String previousDate = null;
         public ExpenseAdapter(Context context, List<Expense> expenses) {
             super(context, 0, expenses);
         }
@@ -233,11 +232,10 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
             Expense currentExpense = getItem(position);
 
             // 檢查消費記錄的月份是否與當前月份一致
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
             String monthString = sdf.format(currentExpense.getDate());
             String year = monthString.substring(0,4);
             String month = monthString.substring(5, 7);
-            String day = monthString.substring(8, 10);
 
             LinearLayout linearLayout = itemView.findViewById(R.id.linearLayout);
             TextView nameTextView = itemView.findViewById(R.id.nameTextView);
@@ -254,25 +252,46 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
                 categoryTextView.setVisibility(View.VISIBLE);
 
                 nameTextView.setText("消費名稱：" + currentExpense.getName());
-                amountTextView.setText("消費金額：" + String.valueOf(currentExpense.getAmount()));
-                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                String dateString1 = sdf1.format(currentExpense.getDate());
-                dateTextView.setText(dateString1);
+
+                if(currentExpense.getCategory().equals("收入")){
+                    amountTextView.setText("NT$"+String.valueOf(currentExpense.getAmount()));
+                    amountTextView.setTextColor(ContextCompat.getColor(this.getContext(), R.color.green));
+                }
+                else if(currentExpense.getCategory().equals("支出")){
+                    amountTextView.setText("NT$"+String.valueOf(currentExpense.getAmount()));
+                    amountTextView.setTextColor(ContextCompat.getColor(this.getContext(), R.color.red));
+                }
+                else
+                    amountTextView.setText("NT$"+String.valueOf(currentExpense.getAmount()));
+
+                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                String dateString2 = sdf2.format(currentExpense.getDate());
+                dateTextView.setText(dateString2);
                 categoryTextView.setText("消費類型：" + currentExpense.getCategory());
 
-                // 检查是否与前一个项目的日期相同
-                if (previousDate == null ) {
-                    // 显示日期TextView和分割线
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String dateString1 = sdf1.format(currentExpense.getDate());
+
+                // 檢查是否與前一項目的日期相同
+                if (position > 0) {
+                    Expense previousExpense = getItem(position - 1);
+                    String previousDateString = sdf1.format(previousExpense.getDate());
+
+                    if (dateString1.equals(previousDateString)) {
+                        // 相同日期，隱藏日期的分割線
+                        dateBigTextView.setVisibility(View.GONE);
+                    }
+                    else {
+                        // 不同日期，顯示日期的分割線並更新日期
+                        dateBigTextView.setVisibility(View.VISIBLE);
+                        dateBigTextView.setText(dateString1);
+                    }
+                }
+                else {
+                    // 第一項目，直接顯示日期的分割線
                     dateBigTextView.setVisibility(View.VISIBLE);
                     dateBigTextView.setText(dateString1);
                 }
-                else if (!previousDate.equals(day)) {
-                    // 显示日期TextView和分割线
-                    dateBigTextView.setVisibility(View.VISIBLE);
-                    dateBigTextView.setText(dateString1);
-                }
-                // 更新前一个项目的日期
-                previousDate = day;
             }
             else {
                 linearLayout.setVisibility(View.GONE);
