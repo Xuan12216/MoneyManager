@@ -252,17 +252,12 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
                 categoryTextView.setVisibility(View.VISIBLE);
 
                 nameTextView.setText("消費名稱：" + currentExpense.getName());
+                amountTextView.setText("NT$"+String.valueOf(currentExpense.getAmount()));
 
-                if(currentExpense.getCategory().equals("收入")){
-                    amountTextView.setText("NT$"+String.valueOf(currentExpense.getAmount()));
+                if(currentExpense.getCategory().equals("收入"))
                     amountTextView.setTextColor(ContextCompat.getColor(this.getContext(), R.color.green));
-                }
-                else if(currentExpense.getCategory().equals("支出")){
-                    amountTextView.setText("NT$"+String.valueOf(currentExpense.getAmount()));
+                else if(currentExpense.getCategory().equals("支出"))
                     amountTextView.setTextColor(ContextCompat.getColor(this.getContext(), R.color.red));
-                }
-                else
-                    amountTextView.setText("NT$"+String.valueOf(currentExpense.getAmount()));
 
                 SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
                 String dateString2 = sdf2.format(currentExpense.getDate());
