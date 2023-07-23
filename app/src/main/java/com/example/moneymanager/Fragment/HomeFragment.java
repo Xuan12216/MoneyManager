@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -16,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -163,8 +163,7 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
         String[] monthNames = {"1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"};
         return String.valueOf(year) + "年 " + monthNames[month];
     }
-    private void updateHomeIncomeAndOutCome()
-    {
+    private void updateHomeIncomeAndOutCome() {
         income = 0.0;
         outcome = 0.0;
         balance = 0.0;
@@ -237,15 +236,14 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
             String year = monthString.substring(0,4);
             String month = monthString.substring(5, 7);
 
-            LinearLayout linearLayout = itemView.findViewById(R.id.linearLayout);
             TextView nameTextView = itemView.findViewById(R.id.nameTextView);
             TextView amountTextView = itemView.findViewById(R.id.amountTextView);
             TextView dateTextView = itemView.findViewById(R.id.dateTextView);
             TextView categoryTextView = itemView.findViewById(R.id.categoryTextView);
             TextView dateBigTextView = itemView.findViewById(R.id.dateBigTextView);
+            ConstraintLayout constraintLayout = itemView.findViewById(R.id.constraintLayout);
 
             if (currentMonth + 1 == Integer.parseInt(month) && currentYear == Integer.parseInt(year)) {
-                linearLayout.setVisibility(View.VISIBLE);
                 nameTextView.setVisibility(View.VISIBLE);
                 amountTextView.setVisibility(View.VISIBLE);
                 dateTextView.setVisibility(View.VISIBLE);
@@ -266,6 +264,8 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
 
                 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 String dateString1 = sdf1.format(currentExpense.getDate());
+
+                SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
 
                 // 檢查是否與前一項目的日期相同
                 if (position > 0) {
@@ -289,7 +289,7 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
                 }
             }
             else {
-                linearLayout.setVisibility(View.GONE);
+                constraintLayout.setVisibility(View.GONE);
                 nameTextView.setVisibility(View.GONE);
                 amountTextView.setVisibility(View.GONE);
                 dateTextView.setVisibility(View.GONE);
