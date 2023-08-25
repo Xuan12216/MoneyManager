@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,6 +59,7 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
     private Double income = 0.0;
     private Double outcome = 0.0;
     private Double balance = 0.0;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -239,18 +243,23 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
             TextView nameTextView = itemView.findViewById(R.id.nameTextView);
             TextView amountTextView = itemView.findViewById(R.id.amountTextView);
             TextView dateTextView = itemView.findViewById(R.id.dateTextView);
-            TextView categoryTextView = itemView.findViewById(R.id.categoryTextView);
             TextView dateBigTextView = itemView.findViewById(R.id.dateBigTextView);
             ConstraintLayout constraintLayout = itemView.findViewById(R.id.constraintLayout);
+            FrameLayout cardView = itemView.findViewById(R.id.cardView);
+            LinearLayout layout = itemView.findViewById(R.id.LinearLayout);
+            View view = itemView.findViewById(R.id.view);
 
             if (currentMonth + 1 == Integer.parseInt(month) && currentYear == Integer.parseInt(year)) {
+                constraintLayout.setVisibility(View.VISIBLE);
                 nameTextView.setVisibility(View.VISIBLE);
                 amountTextView.setVisibility(View.VISIBLE);
                 dateTextView.setVisibility(View.VISIBLE);
-                categoryTextView.setVisibility(View.VISIBLE);
+                dateBigTextView.setVisibility(View.VISIBLE);
+                cardView.setVisibility(View.VISIBLE);
+                layout.setVisibility(View.VISIBLE);
 
                 nameTextView.setText("消費名稱：" + currentExpense.getName());
-                amountTextView.setText("NT$"+String.valueOf(currentExpense.getAmount()));
+                amountTextView.setText("NT$"+String.valueOf(currentExpense.getAmount())+" " + currentExpense.getCategory());
 
                 if(currentExpense.getCategory().equals("收入"))
                     amountTextView.setTextColor(ContextCompat.getColor(this.getContext(), R.color.green));
@@ -259,13 +268,18 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
 
                 SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
                 String dateString2 = sdf2.format(currentExpense.getDate());
-                dateTextView.setText(dateString2);
-                categoryTextView.setText("消費類型：" + currentExpense.getCategory());
+                dateTextView.setText(dateString2.substring(0,10) + "    " + dateString2.substring(11,16));
 
                 SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 String dateString1 = sdf1.format(currentExpense.getDate());
 
-                SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
+                Expense nextExpense;
+                String nextDateString = null;
+
+                if (position + 1 < expenseList.size()){
+                    nextExpense = getItem(position + 1);
+                    nextDateString = sdf1.format(nextExpense.getDate());
+                }
 
                 // 檢查是否與前一項目的日期相同
                 if (position > 0) {
@@ -275,17 +289,61 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
                     if (dateString1.equals(previousDateString)) {
                         // 相同日期，隱藏日期的分割線
                         dateBigTextView.setVisibility(View.GONE);
+
+                        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cardView.getLayoutParams();
+                        layoutParams.setMargins(0,0,0,0);
+                        cardView.setLayoutParams(layoutParams);
+
+                        if (dateString1.equals(nextDateString) && nextDateString != null){
+                            cardView.setBackgroundResource(R.drawable.cardview_no_round);
+                            view.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            cardView.setBackgroundResource(R.drawable.cardview_half_round);
+                            view.setVisibility(View.GONE);
+                        }
                     }
                     else {
                         // 不同日期，顯示日期的分割線並更新日期
                         dateBigTextView.setVisibility(View.VISIBLE);
                         dateBigTextView.setText(dateString1);
+
+                        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cardView.getLayoutParams();
+                        layoutParams.setMargins(0,25,0,0);
+                        cardView.setLayoutParams(layoutParams);
+
+                        if (dateString1.equals(nextDateString) && nextDateString != null) {
+                            cardView.setBackgroundResource(R.drawable.cardview_half_round_1);
+                            view.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            cardView.setBackgroundResource(R.drawable.cardview_round);
+                            view.setVisibility(View.GONE);
+                        }
                     }
                 }
                 else {
                     // 第一項目，直接顯示日期的分割線
                     dateBigTextView.setVisibility(View.VISIBLE);
                     dateBigTextView.setText(dateString1);
+
+                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cardView.getLayoutParams();
+                    layoutParams.setMargins(0,25,0,0);
+                    cardView.setLayoutParams(layoutParams);
+
+                    if (nextDateString == null) {
+                        cardView.setBackgroundResource(R.drawable.cardview_round);
+                        view.setVisibility(View.GONE);
+                    }
+                    else if (dateString1.equals(nextDateString)) {
+                        cardView.setBackgroundResource(R.drawable.cardview_half_round_1);
+                        view.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        cardView.setBackgroundResource(R.drawable.cardview_round);
+                        view.setVisibility(View.GONE);
+                    }
+
                 }
             }
             else {
@@ -293,7 +351,10 @@ public class HomeFragment extends Fragment implements CreateExpenseFragment.OnEx
                 nameTextView.setVisibility(View.GONE);
                 amountTextView.setVisibility(View.GONE);
                 dateTextView.setVisibility(View.GONE);
-                categoryTextView.setVisibility(View.GONE);
+                dateBigTextView.setVisibility(View.GONE);
+                cardView.setVisibility(View.GONE);
+                layout.setVisibility(View.GONE);
+                view.setVisibility(View.GONE);
             }
             return itemView;
         }

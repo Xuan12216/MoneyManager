@@ -89,15 +89,13 @@
         <ListView
             android:id="@+id/expenseListView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/homeIncome"
-            android:layout_alignStart="@+id/homeIncome"
-            android:layout_alignEnd="@+id/homeBalance"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="-15dp"
-            android:layout_marginEnd="-14dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginTop="5dp"
+            android:background="#eeeeee"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp" />
 
