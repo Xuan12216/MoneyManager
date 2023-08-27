@@ -28,6 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CreateExpenseFragment extends DialogFragment {
 
@@ -77,19 +79,13 @@ public class CreateExpenseFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // 保存消費記錄的邏輯
-                if (validateInput()) {
-                    saveExpense();
-                }
+                if (validateInput()) saveExpense();
             }
         })
         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // 取消操作的邏輯
-                dismiss();
-            }
+            public void onClick(DialogInterface dialog, int which) {dialog.dismiss();}// 取消操作的邏輯
         });
-
         return builder.create();
     }
 
@@ -124,19 +120,11 @@ public class CreateExpenseFragment extends DialogFragment {
     }
 
     private boolean validateInput() {
-        String amount = amountEditText.getText().toString().trim();
-        String name = nameEditText.getText().toString().trim();
-
-        if (TextUtils.isEmpty(amount)) {
+        if (amountEditText.getText().toString().trim().isEmpty()
+                || nameEditText.getText().toString().trim().isEmpty()){
             Toast.makeText(getContext(),"輸入資料不全，儲存失敗！",Toast.LENGTH_SHORT).show();
             return false;
         }
-
-        if (TextUtils.isEmpty(name)) {
-            Toast.makeText(getContext(),"輸入資料不全，儲存失敗！",Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
         return true;
     }
 
@@ -147,30 +135,30 @@ public class CreateExpenseFragment extends DialogFragment {
         String category = categorySpinner.getSelectedItem().toString();
         Date date = selectedDate.getTime();
 
-        // 在AsyncTask中執行Room數據庫操作
-        AsyncTask<Void, Void, Void> saveExpenseTask = new AsyncTask<Void, Void, Void>() {
+        // 在ExecutorService中執行Room數據庫操作
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
             @Override
-            protected Void doInBackground(Void... voids) {
+            public void run() {
                 ExpenseDatabase expenseDatabase = ExpenseDatabase.getInstance(requireContext());
                 ExpenseDao expenseDao = expenseDatabase.expenseDao();
 
                 // 創建Expense對象並插入到數據庫
                 Expense expense = new Expense(Double.parseDouble(amount), name, date, category);
                 expenseDao.insertExpense(expense);
-                return null;
-            }
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                // 調用回調方法通知消費記錄已保存
-                if (expenseSavedListener != null) {
-                    expenseSavedListener.onExpenseSaved();
-                }
-            }
-        };
 
-        // 執行AsyncTask
-        saveExpenseTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 調用回調方法通知消費記錄已保存
+                        if (expenseSavedListener != null) {
+                            expenseSavedListener.onExpenseSaved();
+                        }
+                    }
+                });
+            }
+        });
+        executor.shutdown();
     }
 
     public interface OnExpenseSavedListener {

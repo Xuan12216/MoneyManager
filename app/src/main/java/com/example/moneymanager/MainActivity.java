@@ -13,26 +13,23 @@ import com.example.moneymanager.ExpenseDB.ExpenseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     Button loginButton;
-    ExpenseDatabase expenseDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        expenseDatabase= Room.databaseBuilder(this, ExpenseDatabase.class, "expense-db")
-                .build();
         loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,MainActivity2.class);
-                startActivity(intent);
-
                 // 使用 SharedPreferences 將 MainActivity2 設置為主頁
                 SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isMainPageSet", true);
                 editor.apply();
+
+                startActivity(new Intent(MainActivity.this,MainActivity2.class));
+                finish();
             }
         });
 
@@ -41,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (isMainPageSet) {
             // 如果 MainActivity2 被設置為主頁，直接跳轉到 MainActivity2
-            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-            startActivity(intent);
+            startActivity(new Intent(MainActivity.this, MainActivity2.class));
             finish(); // 結束 MainActivity，避免返回到它
         }
     }

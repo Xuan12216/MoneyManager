@@ -32,9 +32,7 @@ public class MainActivity2 extends AppCompatActivity {
             flagItem.setChecked(true);
             replaceFragment(new FlagFragment());
         }
-        else {
-            replaceFragment(new HomeFragment());
-        }
+        else replaceFragment(new HomeFragment());
 
         navigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -60,8 +58,8 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     private void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         fragmentTransaction.commit();
     }

@@ -1,6 +1,8 @@
 package com.example.moneymanager.Fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -24,27 +26,6 @@ public class PersonFragment extends Fragment {
     private Button SaveButton;
     private EditText NameEdit;
     private EditText EmailEdit;
-
-    public PersonFragment() {
-        // Required empty public constructor
-    }
-
-
-    // TODO: Rename and change types and number of parameters
-    public static PersonFragment newInstance(String param1, String param2) {
-        PersonFragment fragment = new PersonFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,24 +76,48 @@ public class PersonFragment extends Fragment {
         LogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 删除 SharedPreferences 中的所有数据
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.apply();
+                // 创建确认对话框
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle("确认删除帐号");
+                builder.setMessage("确定要删除帐号吗？此操作将删除所有数据并无法撤消。");
 
-                // 删除 Room 数据库中的所有数据
-                AsyncTask.execute(new Runnable() {
+                // 添加确认按钮
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
-                    public void run() {
-                        ExpenseDatabase expenseDatabase = ExpenseDatabase.getInstance(requireContext());
-                        expenseDatabase.clearAllTables();
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // 删除 SharedPreferences 中的所有数据
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.apply();
+
+                        // 删除 Room 数据库中的所有数据
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ExpenseDatabase expenseDatabase = ExpenseDatabase.getInstance(requireContext());
+                                expenseDatabase.clearAllTables();
+                            }
+                        }).start();
+
+                        // 提示用户数据已删除
+                        Toast.makeText(getActivity(), "数据已删除", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(requireContext(), MainActivity.class));
+                        getActivity().finish();
                     }
                 });
 
-                startActivity(new Intent(requireContext(), MainActivity.class));
-                // 提示用户数据已删除
-                Toast.makeText(getActivity(), "数据已删除", Toast.LENGTH_SHORT).show();
+                // 添加取消按钮
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // 用户取消操作，无需执行任何操作
+                    }
+                });
+
+                // 显示对话框
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 

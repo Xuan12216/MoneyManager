@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CalendarFragment extends Fragment {
 
@@ -126,44 +128,55 @@ public class CalendarFragment extends Fragment {
         // 清空日历数据列表
         calendarDaysList.clear();
 
-        // 获取当前年份和月份
-        Calendar calendar = Calendar.getInstance();
-        int year = currentYear;
-        int month = currentMonth;
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                // 获取当前年份和月份
+                Calendar calendar = Calendar.getInstance();
+                int year = currentYear;
+                int month = currentMonth;
 
-        // 设置日历为当前年份和月份
-        calendar.set(year, month, 1);
+                // 设置日历为当前年份和月份
+                calendar.set(year, month, 1);
 
-        // 获取当前月份的第一天是星期几
-        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                // 获取当前月份的第一天是星期几
+                int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
-        // 获取当前月份的总天数
-        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                // 获取当前月份的总天数
+                int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-        // 添加空白的占位符，直到第一天之前的位置
-        for (int i = 1; i < firstDayOfWeek; i++) {
-            calendarDaysList.add("");
-        }
+                // 添加空白的占位符，直到第一天之前的位置
+                for (int i = 1; i < firstDayOfWeek; i++) {
+                    calendarDaysList.add("");
+                }
 
-        // 添加当前月份的日期
-        for (int day = 1; day <= daysInMonth; day++) {
-            calendarDaysList.add(String.valueOf(day));
-        }
+                // 添加当前月份的日期
+                for (int day = 1; day <= daysInMonth; day++) {
+                    calendarDaysList.add(String.valueOf(day));
+                }
 
-        // 添加空白的占位符，直到列表长度是7的倍数
-        while (calendarDaysList.size() % 7 != 0) {
-            calendarDaysList.add("");
-        }
+                // 添加空白的占位符，直到列表长度是7的倍数
+                while (calendarDaysList.size() % 7 != 0) {
+                    calendarDaysList.add("");
+                }
 
-        // 重新设置适配器的数据源
-        calendarAdapter = new CalendarAdapter(requireContext(), calendarDaysList, expenseDatabase,this);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 重新设置适配器的数据源
+                        calendarAdapter = new CalendarAdapter(requireContext(), calendarDaysList, expenseDatabase,CalendarFragment.this);
 
+                        // 设置日历GridView的适配器
+                        calendarGridView.setAdapter(calendarAdapter);
 
-        // 设置日历GridView的适配器
-        calendarGridView.setAdapter(calendarAdapter);
-
-        // 通知适配器数据源改变
-        calendarAdapter.notifyDataSetChanged();
+                        // 通知适配器数据源改变
+                        calendarAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+        executor.shutdown();
     }
 
 
@@ -178,18 +191,15 @@ public class CalendarFragment extends Fragment {
     }
 
     private void updateHomeIncomeAndOutCome() {
-        income = 0.0;
-        outcome = 0.0;
-        balance = 0.0;
-
-        AsyncTask<Void, Void, List<Expense>> loadExpensesTask = new AsyncTask<Void, Void, List<Expense>>() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
             @Override
-            protected List<Expense> doInBackground(Void... voids) {
-                return expenseDatabase.expenseDao().getAllExpenses();
-            }
+            public void run() {
+                income = 0.0;
+                outcome = 0.0;
+                balance = 0.0;
 
-            @Override
-            protected void onPostExecute(List<Expense> expenses) {
+                List<Expense> expenses = expenseDatabase.expenseDao().getAllExpenses();
                 expenseList.clear();
                 expenseList.addAll(expenses);
 
@@ -210,13 +220,17 @@ public class CalendarFragment extends Fragment {
                     }
                 }
 
-                incomeTxt.setText("收入\nNT$" + String.format(Locale.getDefault(), "%.2f", income));
-                outcomeTxt.setText("支出\nNT$" + String.format(Locale.getDefault(), "%.2f", outcome));
-                balanceTxt.setText("餘額\nNT$" + String.format(Locale.getDefault(), "%.2f", balance-outcome+income));
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        incomeTxt.setText("收入\nNT$" + String.format(Locale.getDefault(), "%.2f", income));
+                        outcomeTxt.setText("支出\nNT$" + String.format(Locale.getDefault(), "%.2f", outcome));
+                        balanceTxt.setText("餘額\nNT$" + String.format(Locale.getDefault(), "%.2f", balance-outcome+income));
+                    }
+                });
             }
-        };
-
-        loadExpensesTask.execute();
+        });
+        executor.shutdown();
     }
 
     public int getCurrentMonth() {

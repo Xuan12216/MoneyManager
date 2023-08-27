@@ -18,7 +18,8 @@
         android:layout_marginRight="5dp"
         android:layout_gravity="bottom|end"
         android:textColor="@color/green"
-        android:textSize="12sp" />
+        android:maxLines="1"
+        android:textSize="10sp" />
     <TextView
         android:id="@+id/dayTextViewOutcome"
         android:layout_width="wrap_content"
@@ -26,13 +27,15 @@
         android:layout_gravity="bottom|end"
         android:layout_marginRight="5dp"
         android:textColor="@color/red"
-        android:textSize="12sp" />
+        android:maxLines="1"
+        android:textSize="10sp" />
     <TextView
         android:id="@+id/dayTextViewBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="5dp"
-        android:textSize="12sp" />
+        android:maxLines="1"
+        android:textSize="10sp" />
 
 </LinearLayout>

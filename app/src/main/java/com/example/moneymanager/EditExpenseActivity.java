@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class EditExpenseActivity extends AppCompatActivity {
 
@@ -58,7 +60,8 @@ public class EditExpenseActivity extends AppCompatActivity {
         expenseDatabase = ExpenseDatabase.getInstance(this);
 
         // 使用异步任务从数据库获取Expense对象
-        AsyncTask.execute(new Runnable() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
             @Override
             public void run() {
                 expense = expenseDatabase.expenseDao().getExpenseById(expenseId);
@@ -88,6 +91,7 @@ public class EditExpenseActivity extends AppCompatActivity {
                 });
             }
         });
+        executor.shutdown();
 
         deleteExpenseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,12 +136,10 @@ public class EditExpenseActivity extends AppCompatActivity {
                 expense.setDate(updatedDate);
 
                 // 执行数据库更新操作
-                AsyncTask.execute(new Runnable() {
+                new Thread(new Runnable() {
                     @Override
-                    public void run() {
-                        expenseDatabase.expenseDao().updateExpense(expense);
-                    }
-                });
+                    public void run() {expenseDatabase.expenseDao().updateExpense(expense);}
+                }).start();
                 Intent intent = new Intent(EditExpenseActivity.this, MainActivity2.class);
                 startActivity(intent);
             }

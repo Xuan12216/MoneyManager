@@ -2,6 +2,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -32,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingTop="10dp"
+                android:paddingTop="8dp"
                 android:text="TextView"
                 android:textStyle="bold"
                 android:visibility="gone" />
@@ -43,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:text="Expense Name"
-                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -51,17 +51,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:text="Expense Amount"
-                android:textSize="14sp" />
+                android:text="Expense Amount" />
 
             <TextView
                 android:id="@+id/dateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:paddingBottom="10dp"
-                android:text="Expense Date"
-                android:textSize="14sp" />
+                android:paddingBottom="8dp"
+                android:text="Expense Date" />
+
+            <TextView
+                android:id="@+id/todayAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today Amount"
+                android:layout_gravity="center"
+                android:paddingBottom="8dp"
+                android:visibility="gone"/>
 
         </LinearLayout>
     </FrameLayout>

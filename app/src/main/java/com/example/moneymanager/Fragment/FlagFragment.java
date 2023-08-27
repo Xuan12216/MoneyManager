@@ -24,6 +24,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class FlagFragment extends Fragment {
     private Button preButton;
@@ -34,24 +36,6 @@ public class FlagFragment extends Fragment {
     private int currentMonth;
     private int currentYear;
     private int flag=0;
-
-    public FlagFragment() {
-        // Required empty public constructor
-    }
-
-    public static FlagFragment newInstance(String param1, String param2) {
-        FlagFragment fragment = new FlagFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,15 +48,11 @@ public class FlagFragment extends Fragment {
         cardView1 = view.findViewById(R.id.CardView1);
         cardTextView1 = view.findViewById(R.id.CardTextView1);
 
-
         cardView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(requireContext(), addBalanceActivity.class);
-                if (flag!=0){
-                    intent.putExtra("expenseID",flag);
-                }
-
+                if (flag!=0) intent.putExtra("expenseID",flag);
                 startActivity(intent);
             }
         });
@@ -122,9 +102,11 @@ public class FlagFragment extends Fragment {
             month = "0"+month;
 
         String currentYearAndMonth = year + "-" + month;
-        AsyncTask<Void, Void, Void> saveExpenseTask = new AsyncTask<Void, Void, Void>() {
+
+        ExecutorService saveExpenseTask = Executors.newSingleThreadExecutor();
+        saveExpenseTask.execute(new Runnable() {
             @Override
-            protected Void doInBackground(Void... voids) {
+            public void run() {
                 ExpenseDatabase expenseDatabase = ExpenseDatabase.getInstance(requireContext());
                 ExpenseDao expenseDao = expenseDatabase.expenseDao();
 
@@ -132,18 +114,14 @@ public class FlagFragment extends Fragment {
                 List<Expense> expenses = expenseDao.getExpensesByCategory("餘額");
 
                 if (expenses != null && expenses.size() > 0) {
-
-                    for (int i=0;i<expenses.size();i++)
-                    {
+                    for (int i=0;i<expenses.size();i++) {
                         // 如果存在，执行更新操作
                         Expense expense = expenses.get(i);
                         if (formatDate1(expense.getDate()).equals(currentYearAndMonth)) {
                             flag=expense.getId();
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
-                                public void run() {
-                                    cardTextView1.setText("預算名稱：" + expense.getName() + "\n\n設定預算：$" + expense.getAmount() + "\n\n設定日期："+ formatDate(expense.getDate()));
-                                }
+                                public void run() {cardTextView1.setText("預算名稱：" + expense.getName() + "\n\n設定預算：$" + expense.getAmount() + "\n\n設定日期："+ formatDate(expense.getDate()));}
                             });
                             break;
                         }
@@ -151,9 +129,7 @@ public class FlagFragment extends Fragment {
                             flag=0;
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
-                                public void run() {
-                                    cardTextView1.setText("預算名稱：--\n\n設定餘額：$0.0 \n\n設定日期：yyyy-MM-dd");
-                                }
+                                public void run() {cardTextView1.setText("預算名稱：--\n\n設定餘額：$0.0 \n\n設定日期：yyyy-MM-dd");}
                             });
                         }
                     }
@@ -162,21 +138,12 @@ public class FlagFragment extends Fragment {
                     flag=0;
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
-                        public void run() {
-                            cardTextView1.setText("預算名稱：--\n\n設定餘額：$0.0 \n\n設定日期：yyyy-MM-dd");
-                        }
+                        public void run() {cardTextView1.setText("預算名稱：--\n\n設定餘額：$0.0 \n\n設定日期：yyyy-MM-dd");}
                     });
                 }
-                return null;
             }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-            }
-        };
-
-        saveExpenseTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        });
+        saveExpenseTask.shutdown();
     }
 
     private String formatDate1(Date date) {
